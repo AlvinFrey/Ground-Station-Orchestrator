@@ -1,0 +1,40 @@
+{
+  "name": "Groung-Station-Orchestrator",
+  "version": "1.0.0",
+  "description": "Software used to control and orchestrate an autonomous ground station used to receive NOAA satellites images or satellites communications",
+  "main": "server.js",
+  "license": "CC-BY-NC-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/AlvinFrey/Ground-Station-Orchestrator/issues"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlvinFrey/Ground-Station-Orchestrator"
+  },
+  "author": {
+    "name": "FREY Alvin",
+    "email": "alvin.frey@protonmail.ch",
+    "url": "https://twitter.com/Frey_Alvin"
+  },
+  "contributors": [
+    {
+      "name": "Alban DURRHEIMER",
+      "email": "alban6800@hotmail.fr"
+    }
+  ],
+  "dependencies": {
+    "async": "^2.4.1",
+    "child-process-promise": "^2.2.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "jspredict": "^1.0.3",
+    "moment": "^2.18.1",
+    "node-schedule": "^1.2.3",
+    "serve-index": "https://github.com/AlvinFrey/serve-index/tarball/master",
+    "shelljs": "^0.7.8",
+    "spacetrack": "^2.1.1"
+  }
+}
