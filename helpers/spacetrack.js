@@ -24,7 +24,7 @@ module.exports.getTLE = function(){
 
         }).then(function (result) {
 
-            const spacetrackData = {
+            resolve({
                 'NOAA 15': {
                     epoch: result[0].epoch,
                     tle: result[0].tle[0] + '\n' + result[0].tle[1] + '\n' + result[0].tle[2]
@@ -45,9 +45,7 @@ module.exports.getTLE = function(){
                     epoch: result[4].epoch,
                     tle: result[4].tle[0] + '\n' + result[4].tle[1] + '\n' + result[4].tle[2]
                 }
-            };
-
-            resolve(spacetrackData);
+            });
 
         }, function (err) {
 

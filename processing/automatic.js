@@ -23,11 +23,13 @@ exec('tle_dl').then(function () {
 
                 const directory = process.env.STORAGE_FOLDER + satelliteID.replace(' ', '') + "_" + moment(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID])).format("YYYY-MM-DD_HH:mm:ss");
 
-                shell.mkdir('-p', directory);
-
                 if(satellitesInfos[satelliteID].type == 'noaa'){
 
                     const schedule = scheduler.scheduleJob(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]), function(){
+
+                        console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has started and the system begin to listen to listen the data of the sat');
+
+                        shell.mkdir('-p', directory);
 
                         exec(commands.recordRAW(satelliteID, satellitesInfos[satelliteID], directory, predictsID)).then(function () {
 
@@ -37,7 +39,7 @@ exec('tle_dl').then(function () {
 
                                 exec(commands.decodeAPT(satelliteID, directory)).then(function () {
 
-                                    //FINI
+                                    console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has been successfully recorded and saved on our system');
 
                                 }).catch(function(error){
 
@@ -63,11 +65,15 @@ exec('tle_dl').then(function () {
 
                     const schedule = scheduler.scheduleJob(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]), function(){
 
+                        console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has started and the system begin to listen to listen the data of the sat');
+
+                        shell.mkdir('-p', directory);
+
                         exec(commands.recordRAW(satelliteID, satellitesInfos[satelliteID], directory, predictsID)).then(function () {
 
                             exec(commands.transcoding(satelliteID, satellitesInfos[satelliteID], directory)).then(function () {
 
-                                //FINI
+                                console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has been successfully recorded and saved on our system');
 
                             }).catch(function(error){
 
