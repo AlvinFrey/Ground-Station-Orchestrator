@@ -79,6 +79,6 @@ module.exports.transcoding = function(satelliteID, satelliteInfos, directory){
 
 module.exports.decodeAPT = function(satelliteID, directory){
 
-    return 'aptdec -d ' + directory + '/images -i rabct -s ' + satelliteID.replace('NOAA ', '');
+    return 'sudo aptdec -d ' + directory + '/images -i rabct -s ' + satelliteID.replace('NOAA ', '');
 
 };

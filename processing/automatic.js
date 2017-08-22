@@ -25,19 +25,21 @@ exec('tle_dl').then(function () {
 
                 if(satellitesInfos[satelliteID].type == 'noaa'){
 
+                    console.log(scheduler.scheduledJobs);
+
                     const schedule = scheduler.scheduleJob(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]), function(){
 
                         console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has started and the system begin to listen to listen the data of the sat');
 
                         shell.mkdir('-p', directory);
 
-                        exec(commands.recordRAW(satelliteID, satellitesInfos[satelliteID], directory, predictsID)).then(function () {
+                        exec(commands.recordRAW(satelliteID, satellitesInfos[satelliteID], directory, predictsID), {maxBuffer: 1024 * 1000}).then(function () {
 
-                            exec(commands.transcoding(satelliteID, satellitesInfos[satelliteID], directory)).then(function () {
+                            exec(commands.transcoding(satelliteID, satellitesInfos[satelliteID], directory), {maxBuffer: 1024 * 1000}).then(function () {
 
                                 shell.mkdir('-p', directory + '/images/');
 
-                                exec(commands.decodeAPT(satelliteID, directory)).then(function () {
+                                exec(commands.decodeAPT(satelliteID, directory), {maxBuffer: 1024 * 1000}).then(function () {
 
                                     console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has been successfully recorded and saved on our system');
 
@@ -63,15 +65,17 @@ exec('tle_dl').then(function () {
 
                 }else if(satellitesInfos[satelliteID].type == 'stations' || satellitesInfos[satelliteID].type == 'cubesat'){
 
+                    console.log(scheduler.scheduledJobs);
+
                     const schedule = scheduler.scheduleJob(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]), function(){
 
                         console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has started and the system begin to listen to listen the data of the sat');
 
                         shell.mkdir('-p', directory);
 
-                        exec(commands.recordRAW(satelliteID, satellitesInfos[satelliteID], directory, predictsID)).then(function () {
+                        exec(commands.recordRAW(satelliteID, satellitesInfos[satelliteID], directory, predictsID), {maxBuffer: 1024 * 1000}).then(function () {
 
-                            exec(commands.transcoding(satelliteID, satellitesInfos[satelliteID], directory)).then(function () {
+                            exec(commands.transcoding(satelliteID, satellitesInfos[satelliteID], directory), {maxBuffer: 1024 * 1000}).then(function () {
 
                                 console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has been successfully recorded and saved on our system');
 
