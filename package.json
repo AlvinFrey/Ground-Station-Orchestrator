@@ -30,11 +30,13 @@
     "child-process-promise": "^2.2.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
+    "express-session": "^1.15.6",
     "jspredict": "^1.0.3",
     "moment": "^2.18.1",
     "node-schedule": "^1.2.3",
     "serve-index": "https://github.com/AlvinFrey/serve-index/tarball/master",
     "shelljs": "^0.7.8",
-    "spacetrack": "^2.1.1"
+    "spacetrack": "^2.1.1",
+    "twig": "^1.10.5"
   }
 }

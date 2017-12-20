@@ -1,0 +1,51 @@
+
+{% extends "layout.twig" %}
+
+{% block body %}
+
+    <br/>
+
+    <form>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <i><label for="uniqid" style="color: white;">Ground-Station ID</label></i>
+                <input type="text" class="form-control" id="uniqid">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <i><label for="password" style="color: white;">Password</label></i>
+                <input type="password" class="form-control" id="password">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <i><label for="secretKey" style="color: white;">Secret Key</label></i>
+                <input type="password" class="form-control" id="secretKey">
+            </div>
+        </div>
+        <br/>
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <button type="button" class="btn btn-info">Login to the admin panel</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+
+        body{
+            background: url('https://static.pexels.com/photos/176851/pexels-photo-176851.jpeg') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+    </style>
+
+{% endblock %}
