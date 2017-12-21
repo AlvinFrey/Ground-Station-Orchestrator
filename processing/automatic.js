@@ -25,8 +25,6 @@ exec('tle_dl').then(function () {
 
                 if(satellitesInfos[satelliteID].type == 'noaa'){
 
-                    console.log(scheduler.scheduledJobs);
-
                     const schedule = scheduler.scheduleJob(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]), function(){
 
                         console.log('[AUTOMATIC PROCESSING] ' + satelliteID + ' pass ('+ new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]) +') has started and the system begin to listen to listen the data of the sat');
@@ -64,8 +62,6 @@ exec('tle_dl').then(function () {
                     });
 
                 }else if(satellitesInfos[satelliteID].type == 'stations' || satellitesInfos[satelliteID].type == 'cubesat'){
-
-                    console.log(scheduler.scheduledJobs);
 
                     const schedule = scheduler.scheduleJob(new Date(satellitesInfos[satelliteID].predicts.startTime[predictsID]), function(){
 

@@ -3,11 +3,111 @@
 
 {% block body %}
 
+    <h1 class="display-4 text-center" id="datetime"></h1>
+
+    <br/>
+
+    <div class="row">
+
+        <div class="col-12 col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item list-item-header"><p class="h5 list-text-header">Basic informations :</p></li>
+                <li class="list-group-item">SDR Connection : <span class="badge badge-danger">OFFLINE</span></li>
+                <li class="list-group-item">Internet Connection : <span class="badge badge-success">ONLINE</span></li>
+                <li class="list-group-item">Used storage size : <small class="text-muted">50 Gb</small></li>
+                <li class="list-group-item">Today satellite pass count : <small class="text-muted">12</small></li>
+            </ul>
+            <br class="d-block d-sm-block d-md-none"/>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item list-item-header"><p class="h5 list-text-header">Station informations :</p></li>
+                <li class="list-group-item">Station name :  <small class="text-muted">{{ groundStation.name }}</small></li>
+                <li class="list-group-item">Unique identifier : <small class="text-muted">{{ groundStation.uid }}</small></li>
+                <li class="list-group-item">Latitude / Longitude : <small class="text-muted">{{ groundStation.position.latitude }} / {{ groundStation.position.longitude }}</small></li>
+                <li class="list-group-item">Antennas : <small class="text-muted">UHF Turnstile</small></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <br/>
+
     <ul class="list-group">
-        <li class="list-group-item">Storage size : <span class="badge badge-info">50Gb / 100Gb</span></li>
-        <li class="list-group-item">SDR Connection : <span class="badge badge-success">online</span></li>
-        <li class="list-group-item">Internet Connection : <span class="badge badge-danger">offline</span></li>
-        <li class="list-group-item">Today's satellite pass : <span class="badge badge-info">10</span></li>
+        <li class="list-group-item list-item-header"><p class="h5 list-text-header">Next satellite pass :</p></li>
+        <li class="list-group-item">NOAA 15 : <small class="text-muted">10h50</small></li>
+        <li class="list-group-item">ISS : <small class="text-muted">11h50</small></li>
+        <li class="list-group-item">NOAA 15 : <small class="text-muted">13h00</small></li>
     </ul>
+
+    <br/>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+
+        .list-item-header{
+            background-color: #FDFDFD;
+        }
+
+        .list-text-header{
+            margin-top: 8px;
+            margin-bottom: 8px;
+            color: #4B4F52;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+
+        function getDateTime(){
+
+            let today = new Date();
+            let dd = today.getDate();
+            let mm = today.getMonth()+1;
+            let yyyy = today.getFullYear();
+
+            let hours = today.getHours();
+            let minutes = today.getMinutes();
+            let seconds = today.getSeconds();
+
+            if(dd<10) {
+                dd='0'+dd
+            }
+
+            if(mm<10) {
+                mm='0'+mm
+            }
+
+            if(hours<10) {
+                hours='0'+hours;
+            }
+
+            if(minutes<10) {
+                minutes='0'+minutes;
+            }
+
+            if(seconds<10) {
+                seconds='0'+seconds;
+            }
+
+            $("#datetime").text(dd + "/" + mm + "/" + yyyy + " " + hours + ":" + minutes + ":" + seconds);
+
+        }
+
+        getDateTime();
+
+        setInterval(function(){
+            getDateTime();
+        }, 500);
+
+    </script>
 
 {% endblock %}
