@@ -7,7 +7,7 @@ const app = express();
 const serveOptions = {
     'icons': true,
     'view': 'tiles',
-    'stationID': process.env.GROUND_STATION_ID
+    'stationID': process.env.GROUND_STATION_NAME
 };
 
 app.use('/', serveIndex(process.env.STORAGE_FOLDER, serveOptions));

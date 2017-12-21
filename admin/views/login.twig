@@ -7,27 +7,31 @@
 
     <form>
         <div class="row justify-content-center">
-            <div class="form-group col-6">
-                <i><label for="uniqid" style="color: white;">Ground-Station ID</label></i>
-                <input type="text" class="form-control" id="uniqid">
+            <img src="https://cdn3.iconfinder.com/data/icons/computers/256/satellite.png" width="152" height="152"/>
+        </div>
+        <br/>
+        <div class="row justify-content-center">
+            <div class="form-group col-12 col-md-6">
+                <i><label for="uniqid" style="color: white;">Ground-Station Unique ID</label></i>
+                <input type="text" class="form-control" id="uniqid" placeholder="2E26D51A">
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="form-group col-6">
+            <div class="form-group col-12 col-md-6">
                 <i><label for="password" style="color: white;">Password</label></i>
-                <input type="password" class="form-control" id="password">
+                <input type="password" class="form-control" id="password" placeholder="GGD12GZ655DQFG">
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="form-group col-6">
+            <div class="form-group col-12 col-md-6">
                 <i><label for="secretKey" style="color: white;">Secret Key</label></i>
-                <input type="password" class="form-control" id="secretKey">
+                <input type="password" class="form-control" id="secretKey" placeholder="mysecretkey">
             </div>
         </div>
         <br/>
         <div class="row justify-content-center">
             <div class="form-group">
-                <button type="button" class="btn btn-info">Login to the admin panel</button>
+                <button type="button" class="btn btn-info" id="loginButton">Login to the admin panel</button>
             </div>
         </div>
     </form>
@@ -39,7 +43,7 @@
     <style>
 
         body{
-            background: url('https://static.pexels.com/photos/176851/pexels-photo-176851.jpeg') no-repeat center center fixed;
+            background: url('https://images.pexels.com/photos/176851/pexels-photo-176851.jpeg?w=1920&h=1080&cs=tinysrgb') no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -47,5 +51,31 @@
         }
 
     </style>
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+
+        $("#loginButton").on('click', function (){
+            $.ajax({
+                type: "POST",
+                url: '/api/login',
+                data: {
+                    stationID: $("#uniqid").val(),
+                    password: $("#password").val(),
+                    secret: $("#secretKey").val()
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.status === "success"){
+                        window.location.replace("/");
+                    }
+                }
+            });
+        })
+
+    </script>
 
 {% endblock %}
