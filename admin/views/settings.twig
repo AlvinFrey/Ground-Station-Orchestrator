@@ -1,0 +1,218 @@
+
+{% extends "layout.twig" %}
+
+{% block body %}
+
+    <br/>
+
+    <div class="card">
+        <p class="h5 card-header"><i class="fa fa-globe" aria-hidden="true"></i> &nbsp; Ground Station</p>
+        <div class="card-body">
+            <form>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="gsUniqid">Unique ID</label></i>
+                        <input type="text" class="form-control" id="gsUniqid" placeholder="2E26D51A" value="{{ env.GROUND_STATION_UID }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="gsName">Name</label></i>
+                        <input type="text" class="form-control" id="gsName" placeholder="My Ground-Station" value="{{ env.GROUND_STATION_NAME }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="gsLatitude">Latitude</label></i>
+                        <input type="text" class="form-control" id="gsLatitude" placeholder="48.05876" value="{{ env.GROUND_STATION_LATITUDE }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="gsLongitude">Longitude</label></i>
+                        <input type="text" class="form-control" id="gsLongitude" placeholder="7.054813" value="{{ env.GROUND_STATION_LONGITUDE }}">
+                    </div>
+                </div>
+                <br/>
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info" id="gsButton">Change ground-station settings</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="card">
+        <p class="h5 card-header"><i class="fa fa-tasks" aria-hidden="true"></i> &nbsp; System settings</p>
+        <div class="card-body">
+            <form>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="storageURL">Storage Folder</label></i>
+                        <input type="text" class="form-control" id="storageURL" placeholder="/home/root/test" value="{{ env.STORAGE_FOLDER }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="explorerPort">File Explorer port</label></i>
+                        <input type="text" class="form-control" id="explorerPort" placeholder="3100" value="{{ env.EXPLORER_PORT }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="secretKey">Secret Key</label></i>
+                        <input type="text" class="form-control" id="secretKey" placeholder="yoursecretkey">
+                    </div>
+                </div>
+                <br/>
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info" id="systemButton">Change system settings</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="card">
+        <p class="h5 card-header"><i class="fa fa-space-shuttle" aria-hidden="true"></i> &nbsp; Spacetrack API Credentials</p>
+        <div class="card-body">
+            <form>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="spacetrackUsername">Username</label></i>
+                        <input type="text" class="form-control" id="spacetrackUsername" placeholder="me@mymail.com" value="{{ env.SPACETRACK_USERNAME }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="spacetrackPassword">Password</label></i>
+                        <input type="text" class="form-control" id="spacetrackPassword" placeholder="jksnf15DMJ9sjdhnf">
+                    </div>
+                </div>
+                <br/>
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info" id="spacetrackButton">Change spacetrack credentials</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br/>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+
+        .card-header{
+            background-color: #FDFDFD;
+            color: #4B4F52;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script src="https://unpkg.com/sweetalert2@7.1.2/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+    <script>
+
+        $("#gsButton").on('click', function (){
+
+            let postData = {
+                type: 'groundstation',
+                uid: $("#gsUniqid").val(),
+                name: $("#gsName").val(),
+                latitude: $("#gsLatitude").val(),
+                longitude: $("#gsLongitude").val()
+            };
+
+            sendData(postData);
+
+        });
+
+        $("#systemButton").on('click', function (){
+
+            let postData;
+
+            if($("#secretKey").val()){
+                postData = {
+                    type: 'system',
+                    storageURL: $("#storageURL").val(),
+                    explorerPort: $("#explorerPort").val(),
+                    secretKey: $("#secretKey").val()
+                };
+            }else{
+                postData = {
+                    type: 'system',
+                    storageURL: $("#storageURL").val(),
+                    explorerPort: $("#explorerPort").val(),
+                };
+            }
+
+            sendData(postData);
+
+        });
+
+        $("#spacetrackButton").on('click', function (){
+
+            let postData;
+
+            if($("#spacetrackPassword").val()){
+                postData = {
+                    type: 'spacetrack',
+                    username: $("#spacetrackUsername").val(),
+                    password: $("#spacetrackPassword").val()
+                };
+            }else{
+                postData = {
+                    type: 'spacetrack',
+                    username: $("#spacetrackUsername").val()
+                };
+            }
+
+            sendData(postData);
+
+        });
+
+        function sendData(postData){
+
+            $.ajax({
+                type: "POST",
+                url: '/api/settings',
+                data: postData,
+                dataType: 'json',
+                success: function(response){
+                    if(response.status === "success"){
+                        swal(
+                            'Success',
+                            'The informations has been successfully added to the env file',
+                            'success'
+                        )
+                    }else if(response.status === "error"){
+                        swal(
+                            'An error has occurred',
+                            response.message,
+                            'error'
+                        )
+                    }
+                }
+            });
+
+        }
+
+    </script>
+
+{% endblock %}

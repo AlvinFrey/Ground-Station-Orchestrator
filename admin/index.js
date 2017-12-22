@@ -3,8 +3,29 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const twig = require("twig");
 const app = express();
+const fs = require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+
+function editDotenv(key, value){
+    return new Promise( function(resolve, reject){
+
+        fs.readFile('.env', 'utf8', function(err, contents) {
+
+            let line = new RegExp(key + '=(.*)', 'g').exec(contents);
+            let replacedLine = line[0].replace(line[1], value);
+            let replacedContents = contents.replace(line[0], replacedLine);
+            fs.writeFile(".env", replacedContents, function(err) {
+                if(err){
+                    reject(err);
+                }
+                resolve();
+            });
+
+        });
+
+    });
+}
 
 function hash(string) {
     string = string.toString();
@@ -44,16 +65,16 @@ app.use((req, res, next) => {
 
     res.locals.logged = false;
 
-   /* if(req.url === '/login' || req.url === '/api/login'){*/
+   if(req.url === '/login' || req.url === '/api/login'){
         next();
-    /*}else if(req.session && req.session.authKey === hash(process.env.GROUND_STATION_UID + process.env.SECRET_KEY)){
+    }else if(req.session && req.session.authKey === hash(process.env.GROUND_STATION_UID + process.env.SECRET_KEY)){
         res.locals.logged = true;
         next();
     }else if(!req.session.authKey || req.session.authKey!== hash(process.env.GROUND_STATION_UID + process.env.SECRET_KEY)){
         res.redirect('/login');
     }else{
         next();
-    }*/
+    }
 
 });
 
@@ -109,8 +130,93 @@ app.post('/api/login', function(req, res){
             });
         }
     }else{
-        res.json({error: "Can't find correct parameters"})
+        res.json({
+            status: "error",
+            message: "Can't find correct parameters"
+        });
     }
+});
+
+app.get('/settings', function(req, res){
+    res.render('settings', {
+        groundStation: {
+            name: process.env.GROUND_STATION_NAME
+        },
+        env: process.env
+    });
+});
+
+app.post('/api/settings', function(req, res){
+
+    if(req.body.type){
+        if(req.body.type === "groundstation" && req.body.uid && req.body.name && req.body.latitude && req.body.longitude){
+
+            editDotenv("GROUND_STATION_UID", req.body.uid).then(function(){
+                editDotenv("GROUND_STATION_NAME", req.body.name).then(function(){
+                    editDotenv("GROUND_STATION_LATITUDE", req.body.latitude).then(function(){
+                        editDotenv("GROUND_STATION_LONGITUDE", req.body.longitude).then(function(){
+                            res.json({
+                                status: "success"
+                            });
+                        });
+                    });
+                });
+            });
+
+        }else if(req.body.type === "system" && req.body.storageURL && req.body.explorerPort) {
+
+            editDotenv("STORAGE_FOLDER", req.body.storageURL).then(function () {
+                editDotenv("EXPLORER_PORT", req.body.explorerPort).then(function () {
+                    res.json({
+                        status: "success"
+                    });
+                });
+            });
+
+        }else if(req.body.type === "system" && req.body.storageURL && req.body.explorerPort && req.body.secretKey) {
+
+            editDotenv("STORAGE_FOLDER", req.body.storageURL).then(function () {
+                editDotenv("EXPLORER_PORT", req.body.explorerPort).then(function () {
+                    editDotenv("SECRET_KEY", req.body.secretKey).then(function () {
+                        res.json({
+                            status: "success"
+                        });
+                    });
+                });
+            });
+
+        }else if(req.body.type === "spacetrack" && req.body.username) {
+
+            editDotenv("SPACETRACK_USERNAME", req.body.username).then(function () {
+                res.json({
+                    status: "success"
+                });
+            });
+
+        }else if(req.body.type === "spacetrack" && req.body.username && req.body.password) {
+
+            editDotenv("SPACETRACK_USERNAME", req.body.username).then(function () {
+                editDotenv("SPACETRACK_PASSWORD", req.body.password).then(function () {
+                    res.json({
+                        status: "success"
+                    });
+                });
+            });
+
+        }else{
+            res.json({
+                status: "error",
+                message: "Can't find correct parameters"
+            });
+        }
+
+    }else{
+        res.json({
+            status: "error",
+            message: "Can't find correct parameters"
+        });
+    }
+
 });
 
 app.get('/logout', function(req, res){

@@ -56,6 +56,9 @@
 
 {% block javascript %}
 
+    <script src="https://unpkg.com/sweetalert2@7.1.2/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
     <script>
 
         $("#loginButton").on('click', function (){
@@ -71,6 +74,12 @@
                 success: function(response){
                     if(response.status === "success"){
                         window.location.replace("/");
+                    }else if(response.status === "error"){
+                        swal(
+                            'An error has occurred',
+                            response.message,
+                            'error'
+                        )
                     }
                 }
             });
