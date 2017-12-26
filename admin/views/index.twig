@@ -12,10 +12,10 @@
         <div class="col-12 col-md-6">
             <ul class="list-group">
                 <li class="list-group-item list-item-header"><p class="h5 list-text-header">Basic informations :</p></li>
-                <li class="list-group-item">SDR Connection : <span class="badge badge-danger">OFFLINE</span></li>
-                <li class="list-group-item">Internet Connection : <span class="badge badge-success">ONLINE</span></li>
-                <li class="list-group-item">Used storage size : <small class="text-muted">50 Gb</small></li>
-                <li class="list-group-item">Today satellite pass count : <small class="text-muted">12</small></li>
+                <li class="list-group-item">SDR Connection : {% if usbConnection == undefined %} <span class="badge badge-danger">OFFLINE</span> {% else %} <span class="badge badge-success">ONLINE</span> {% endif %}</li>
+                <li class="list-group-item">Internet Connection : {% if online == false %} <span class="badge badge-danger">OFFLINE</span> {% else %} <span class="badge badge-success">ONLINE</span> {% endif %} </li>
+                <li class="list-group-item">Used storage size : <small class="text-muted">{{ folderSize }}</small></li>
+                <li class="list-group-item">Today scheduled pass : <small class="text-muted">{{ scheduledJobs }}</small></li>
             </ul>
             <br class="d-block d-sm-block d-md-none"/>
         </div>
@@ -30,15 +30,6 @@
         </div>
 
     </div>
-
-    <br/>
-
-    <ul class="list-group">
-        <li class="list-group-item list-item-header"><p class="h5 list-text-header">Next satellite pass :</p></li>
-        <li class="list-group-item">NOAA 15 : <small class="text-muted">10h50</small></li>
-        <li class="list-group-item">ISS : <small class="text-muted">11h50</small></li>
-        <li class="list-group-item">NOAA 15 : <small class="text-muted">13h00</small></li>
-    </ul>
 
     <br/>
 

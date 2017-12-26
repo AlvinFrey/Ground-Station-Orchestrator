@@ -107,6 +107,38 @@
 
     <br/>
 
+    <div class="card">
+        <p class="h5 card-header"><i class="fa fa-usb" aria-hidden="true"></i> &nbsp; USB Identifier</p>
+        <div class="card-body">
+            <form>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="vendorID">Vendor ID</label></i>
+                        <input type="text" class="form-control" id="vendorID" placeholder="0x0BDA" value="{{ env.SDR_VENDOR_ID }}">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-12 col-md-6">
+                        <i><label for="productID">Product ID</label></i>
+                        <input type="text" class="form-control" id="productID" placeholder="0x2838" value="{{ env.SDR_PRODUCT_ID }}">
+                    </div>
+                </div>
+                <br/>
+                <div class="row justify-content-center">
+                    <p class="text-warning">Info : You can find the vendor and the product ID of your RTL-SDR in your device manager</p>
+                </div>
+                <br/>
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info" id="usbButton">Change USB identifier</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br/>
+
 {% endblock %}
 
 {% block stylesheets %}
@@ -182,6 +214,20 @@
                     username: $("#spacetrackUsername").val()
                 };
             }
+
+            sendData(postData);
+
+        });
+
+        $("#usbButton").on('click', function (){
+
+            let postData;
+
+            postData = {
+                type: 'usb',
+                vendorID: $("#vendorID").val(),
+                productID: $("#productID").val()
+            };
 
             sendData(postData);
 

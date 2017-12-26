@@ -6,6 +6,10 @@ const app = express();
 const fs = require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const scheduler = require('node-schedule');
+const isOnline = require('is-online');
+const usb = require('usb');
+const getFolderSize = require('get-folder-size');
 
 function editDotenv(key, value){
     return new Promise( function(resolve, reject){
@@ -59,8 +63,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-console.log("Your password : " + hash(process.env.GROUND_STATION_UID + process.env.SECRET_KEY));
-
 app.use((req, res, next) => {
 
     res.locals.logged = false;
@@ -79,18 +81,28 @@ app.use((req, res, next) => {
 });
 
 app.all('/', function(req, res){
-    res.render('index',{
-        groundStation: {
-            name: process.env.GROUND_STATION_NAME,
-            uid: process.env.GROUND_STATION_UID,
-            position: {
-                latitude: process.env.GROUND_STATION_LATITUDE,
-                longitude: process.env.GROUND_STATION_LONGITUDE
-            }
-        },
-        logged: res.locals.logged,
-        url: req.url
+
+    getFolderSize(process.env.STORAGE_FOLDER, function(err, size) {
+        isOnline().then(online => {
+            res.render('index',{
+                groundStation: {
+                    name: process.env.GROUND_STATION_NAME,
+                    uid: process.env.GROUND_STATION_UID,
+                    position: {
+                        latitude: process.env.GROUND_STATION_LATITUDE,
+                        longitude: process.env.GROUND_STATION_LONGITUDE
+                    }
+                },
+                logged: res.locals.logged,
+                url: req.url,
+                scheduledJobs: Object.keys(scheduler.scheduledJobs).length,
+                online: online,
+                usbConnection: usb.findByIds(process.env.SDR_VENDOR_ID, process.env.SDR_PRODUCT_ID),
+                folderSize: (size / 1024 / 1024).toFixed(2) + ' Mb'
+            });
+        });
     });
+
 });
 
 app.get('/login', function(req, res){
@@ -203,6 +215,16 @@ app.post('/api/settings', function(req, res){
                 });
             });
 
+        }else if(req.body.type === "usb" && req.body.vendorID && req.body.productID) {
+
+            editDotenv("SDR_VENDOR_ID", req.body.vendorID).then(function () {
+                editDotenv("SDR_PRODUCT_ID", req.body.productID).then(function () {
+                    res.json({
+                        status: "success"
+                    });
+                });
+            });
+
         }else{
             res.json({
                 status: "error",
@@ -228,4 +250,5 @@ app.get('/logout', function(req, res){
 
 app.listen(3000, function () {
     console.log('[ADMIN PANEL] Admin panel server running on port 3000');
+    console.log("Your password is : " + hash(process.env.GROUND_STATION_UID + process.env.SECRET_KEY));
 });
