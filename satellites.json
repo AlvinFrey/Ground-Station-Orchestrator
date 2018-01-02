@@ -1,0 +1,37 @@
+[
+  {
+    "id": 25338,
+    "name": "NOAA 15",
+    "type": "noaa",
+    "image": "http://www.noaanews.noaa.gov/stories2013/images/SuomiNPPartistsrendering_300.jpg",
+    "frequency": 137.5000
+  },
+  {
+    "id": 28654,
+    "name": "NOAA 18",
+    "type": "noaa",
+    "image": "http://www.noaanews.noaa.gov/stories2013/images/SuomiNPPartistsrendering_300.jpg",
+    "frequency": 137.9125
+  },
+  {
+    "id": 33591,
+    "name": "NOAA 19",
+    "type": "noaa",
+    "image": "http://www.noaanews.noaa.gov/stories2013/images/SuomiNPPartistsrendering_300.jpg",
+    "frequency": 137.1000
+  },
+  {
+    "id": 25544,
+    "name": "ISS",
+    "type": "stations",
+    "image": "https://boygeniusreport.files.wordpress.com/2017/03/iss.jpg?quality=50&strip=all",
+    "frequency": 145.8000
+  },
+  {
+    "id": 39444,
+    "name": "FUNCUBE-1",
+    "type": "cubesat",
+    "image": "http://www.funcubedongle.com/wp-content/uploads/2012/11/IMG_0851.jpg",
+    "frequency": 145.9350
+  }
+]

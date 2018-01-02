@@ -10,6 +10,8 @@ const scheduler = require('node-schedule');
 const isOnline = require('is-online');
 const usb = require('usb');
 const getFolderSize = require('get-folder-size');
+const spacetrack = require('../helpers/spacetrack');
+const satellites = require('../helpers/satellites');
 
 function editDotenv(key, value){
     return new Promise( function(resolve, reject){
@@ -239,6 +241,16 @@ app.post('/api/settings', function(req, res){
         });
     }
 
+});
+
+app.get('/satellites', function(req, res){
+    res.render('satellites', {
+        groundStation: {
+            name: process.env.GROUND_STATION_NAME
+        },
+        url: req.url,
+        satellites: JSON.parse(fs.readFileSync('satellites.json', 'utf8'))
+    });
 });
 
 app.get('/logout', function(req, res){

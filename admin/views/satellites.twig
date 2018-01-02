@@ -1,0 +1,36 @@
+
+{% extends "layout.twig" %}
+
+{% block body %}
+
+    <div class="table-responsive-sm">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Catalog ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Frequency</th>
+                    <th scope="col">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for satellite in satellites %}
+
+                    <tr>
+
+                        <th scope="row">{{ satellite.id }}</th>
+                        <td>{{ satellite.name }}</td>
+                        <td>{{ satellite.frequency }}</td>
+                        <td>{{ satellite.type }}</td>
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+<br/>
+
+{% endblock %}
