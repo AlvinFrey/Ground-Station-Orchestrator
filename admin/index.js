@@ -253,6 +253,33 @@ app.get('/satellites', function(req, res){
     });
 });
 
+app.get('/api/satellites/tle/:id', function(req, res){
+
+    if(req.params.id){
+
+        spacetrack.getSpecificTLE(req.params.id).then(function(output){
+            res.json({
+                status: "success",
+                satelliteInfos: output
+            });
+        }).catch(function(error){
+            res.json({
+                status: "error",
+                message: error.message
+            });
+        });
+
+    }else{
+
+        res.json({
+            status: "error",
+            message: "Can't find correct parameters"
+        });
+
+    }
+
+});
+
 app.get('/logout', function(req, res){
     req.session.destroy();
     res.locals.logged = false;
