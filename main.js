@@ -1,6 +1,8 @@
 
 require('dotenv').config();
 
+// HAPPY HACKTOBERFEST
+
 //require('./processing/automatic');
 //require('./explorer/index');
 
