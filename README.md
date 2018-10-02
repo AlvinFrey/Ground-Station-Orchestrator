@@ -17,3 +17,5 @@ This program is distributed under Creative Commons CC-BY-NC-SA-4.0 license, this
 
    [Alvin FREY]: <https://afrey.fr>
    [Alban DURRHEIMER]: <https://www.linkedin.com/in/alban-durrheimer/>
+
+HAPPY HACKTOBERFEST
